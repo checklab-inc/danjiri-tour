@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岸和田だんじり祭 バリアフリーツアー 2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0e0e0e;
+    --cream:   #faf6ef;
+    --red:     #c0190f;
+    --gold:    #b8913a;
+    --white:   #ffffff;
+    --gray:    #5a5a5a;
+    --light:   #f0ebe2;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--cream); color: var(--black); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.2) 55%, transparent 100%);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 48px 40px;
+    max-width: 860px;
+  }
+  .hero-eyebrow {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .hero-title .accent { color: var(--gold); }
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.8;
+    margin-bottom: 36px;
+    max-width: 560px;
+  }
+  .hero-cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .btn-primary:hover { background: #9e1209; transform: translateY(-2px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    padding: 15px 32px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+  .btn-secondary .play-icon {
+    width: 22px; height: 22px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .btn-secondary .play-icon::after {
+    content: '';
+    border-style: solid;
+    border-width: 5px 0 5px 9px;
+    border-color: transparent transparent transparent var(--red);
+    margin-left: 2px;
+  }
+
+  /* ── STRIP ── */
+  .strip {
+    background: var(--red);
+    color: var(--white);
+    text-align: center;
+    padding: 16px 20px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 80px 40px; max-width: 1000px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+  .section-body {
+    font-size: 0.97rem;
+    line-height: 2;
+    color: var(--gray);
+    max-width: 660px;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 48px;
+    align-items: start;
+  }
+  .about-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+  .about-text { padding-top: 8px; }
+  .about-text p { font-size: 0.97rem; line-height: 2; color: var(--gray); }
+  .about-text p + p { margin-top: 18px; }
+
+  /* ── TOUR INFO ── */
+  .info-bg { background: var(--light); }
+  .info-bg section { padding: 80px 40px; }
+
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .info-card {
+    background: var(--white);
+    padding: 32px 28px;
+    border-top: 3px solid var(--red);
+  }
+  .info-card-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .info-card-value {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .info-card-note { font-size: 0.82rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── ACCESSIBILITY ── */
+  .a11y-list {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .a11y-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 24px;
+    background: var(--white);
+    border-left: 3px solid var(--gold);
+  }
+  .a11y-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .a11y-item h4 { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .a11y-item p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+
+  /* ── SCHEDULE ── */
+  .schedule-wrap { margin-top: 48px; }
+  .schedule-item {
+    display: flex;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid #e0d9ce;
+  }
+  .schedule-item:first-child { border-top: 1px solid #e0d9ce; }
+  .schedule-time {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--red);
+    min-width: 90px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .schedule-desc h4 { font-weight: 700; margin-bottom: 4px; font-size: 0.97rem; }
+  .schedule-desc p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+
+  /* ── PHOTOS ── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 40px;
+  }
+  .photo-item { position: relative; overflow: hidden; }
+  .photo-item img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .photo-item:hover img { transform: scale(1.03); }
+  .photo-item:first-child { grid-column: span 2; }
+  .photo-item:first-child img { aspect-ratio: 16/9; }
+  .photo-item:nth-child(4) { grid-column: span 2; }
+  .photo-item:nth-child(4) img { aspect-ratio: 16/9; }
+  .photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    color: var(--white);
+    font-size: 0.78rem;
+    padding: 24px 12px 10px;
+    letter-spacing: 0.05em;
+    font-family: 'Noto Serif JP', serif;
+  }
+  .photo-caption.highlight {
+    background: linear-gradient(transparent, rgba(192,25,15,0.85));
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  /* ── CTA BLOCK ── */
+  .cta-block {
+    background: var(--black);
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .cta-block .section-eyebrow { color: var(--gold); text-align: center; }
+  .cta-block .section-title { color: var(--white); text-align: center; margin-bottom: 12px; }
+  .cta-block p { color: rgba(255,255,255,0.65); font-size: 0.92rem; line-height: 1.8; margin-bottom: 36px; }
+  .cta-block .hero-cta-group { justify-content: center; }
+
+  /* ── VIDEO MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--black);
+    padding: 24px;
+    max-width: 820px;
+    width: 94%;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: -40px; right: 0;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+  .video-placeholder {
+    aspect-ratio: 16/9;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+  }
+  .video-placeholder .big-play {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .video-placeholder .big-play:hover { background: #9e1209; transform: scale(1.07); }
+  .video-placeholder .big-play::after {
+    content: '';
+    border-style: solid;
+    border-width: 14px 0 14px 24px;
+    border-color: transparent transparent transparent var(--white);
+    margin-left: 5px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 32px 20px;
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .hero-content { padding: 36px 24px; }
+    section { padding: 60px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 28px; }
+    .a11y-list { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: 1fr 1fr; }
+    .photo-grid img:first-child { grid-column: span 2; }
+    .info-bg section { padding: 60px 24px; }
+    .cta-block { padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-slides">
+    <div class="hero-slide active" style="background-image: url('images/01.jpg'); background-position: center 30%;"></div>
+    <div class="hero-slide" style="background-image: url('images/04.jpg')"></div>
+    <div class="hero-slide" style="background-image: url('images/02.png')"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">KISHIWADA BARRIER BREAK PROJECT — 車いすだんじり見学ツアー</div>
+    <h1 class="hero-title">
+      だんじりの<span class="accent">迫力</span>を、<br>
+      すべての人と。
+    </h1>
+    <p class="hero-sub">
+      障がいがあるからと、諦めないでください。<br>
+      岸和田バリアブレイクプロジェクトが、祭禮関係者とともに障壁を低減します。<br>
+      令和8年度（2026）実況解説ガイド付き見学ツアー、参加者募集中。
+    </p>
+    <div class="hero-cta-group">
+      <a href="#" class="btn-primary" onclick="openApplyModal(); return false;">今すぐ申し込む</a>
+      <button class="btn-secondary" onclick="openModal()">
+        <span class="play-icon"></span>
+        昨年の動画を見る
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- STRIP -->
+<div class="strip">
+  ♿ 2026年9月18日（金）開催 ／ 定員15組30名（抽選） ／ 実況解説ガイド付き
+</div>
+
+<!-- ABOUT -->
+<section>
+  <div class="section-eyebrow">ABOUT</div>
+  <h2 class="section-title">全国的に知られた祭を、<br>障がいで諦めさせない。</h2>
+  <div class="about-grid">
+    <img src="images/05.jpg" alt="だんじりの迫力ある引き回し" class="about-img">
+    <div class="about-text">
+      <p>岸和田だんじり祭は、全国にその名を轟かせる大阪府岸和田市の秋祭り。しかし「障がい者というだけで諦める」方が多数おられるのが現実です。少子高齢化が深刻な地元においても、同じ問題はより切実になっています。</p>
+      <p>岸和田バリアブレイクプロジェクトは、祭禮関係者とともに障壁の低減に向けて挑戦し続けています。この取り組みは2017年から始まり、毎年積み重ねてきた実績が今日のツアーの礎です。（<a href="https://check.or.jp/%e7%ac%ac15%e5%9b%9e%e3%80%80%e7%a4%be%e4%bc%9a%e8%b2%a2%e7%8c%ae%e3%82%bb%e3%83%9f%e3%83%8a%e3%83%bc%ef%bc%9a%e5%9c%b0%e5%9f%9f%e7%a6%8f%e7%a5%89%e4%bd%93%e9%a8%93%e3%80%80with/" target="_blank" style="color:var(--gold);">2017年の取り組みはこちら</a>）</p>
+      <p>令和8年度（2026）は、実況解説ガイド付きで1コースを体験。屋根付きエリアとやりまわしの2ヶ所で、車いすユーザーが安心して楽しめる専用スポットからご覧いただきます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOUR INFO -->
+<div class="info-bg">
+  <section>
+    <div class="section-eyebrow">TOUR DETAILS</div>
+    <h2 class="section-title">ツアー概要</h2>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-label">開催日</div>
+        <div class="info-card-value">2026年9月18日（金）</div>
+        <div class="info-card-note">令和8年度</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">時間</div>
+        <div class="info-card-value">13:00〜16:00</div>
+        <div class="info-card-note">受付 12:30〜／見学3時間</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">定員</div>
+        <div class="info-card-value">15組・計30名</div>
+        <div class="info-card-note">車いすユーザー15名＋介助者15名<br>応募多数の場合は抽選</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">参加費</div>
+        <div class="info-card-value">¥5,500<span style="font-size:0.65rem;font-weight:400;color:var(--gold);margin-left:4px;">（税込）</span></div>
+        <div class="info-card-note">
+          <span style="display:inline-block;background:var(--red);color:#fff;font-size:0.72rem;padding:1px 7px;border-radius:2px;margin-bottom:5px;letter-spacing:0.05em;">🎫 早割 〜7/15</span><br>
+          <span style="text-decoration:line-through;color:#aaa;font-size:0.82rem;">¥6,500</span>
+          <span style="color:var(--red);font-weight:700;margin-left:4px;">→ ¥5,500</span><br>
+          車いすユーザー・介助者とも同額
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">見学スポット①</div>
+        <div class="info-card-value">屋根付きエリア</div>
+        <div class="info-card-note">雨天・日差しを避けながら間近でだんじりを観覧</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">見学スポット②</div>
+        <div class="info-card-value">やりまわし観覧</div>
+        <div class="info-card-note">豪快なコーナリングを専用スポットから体感</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- SCHEDULE -->
+<section>
+  <div class="section-eyebrow">SCHEDULE</div>
+  <h2 class="section-title">当日のながれ</h2>
+  <div class="schedule-wrap">
+    <div class="schedule-item">
+      <div class="schedule-time">12:30</div>
+      <div class="schedule-desc">
+        <h4>受付開始</h4>
+        <p>スタッフが出迎え。当日の見学スポットとながれをご説明します。</p>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">13:00</div>
+      <div class="schedule-desc">
+        <h4>見学スタート</h4>
+        <p>屋根付きエリアへ移動。実況解説ガイドが同行し、だんじりの見どころをリアルタイムで解説します。</p>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">14:30頃</div>
+      <div class="schedule-desc">
+        <h4>やりまわし観覧スポットへ移動</h4>
+        <p>屋根付きエリアからやりまわし観覧スポットへ。豪快なコーナリングを間近で体感します。</p>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">16:00</div>
+      <div class="schedule-desc">
+        <h4>解散</h4>
+        <p>3時間の見学ツアー終了。スタッフがお見送りします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESSIBILITY -->
+<div class="info-bg">
+  <section>
+    <div class="section-eyebrow">ACCESSIBILITY</div>
+    <h2 class="section-title">バリアフリーへの取り組み</h2>
+    <p class="section-body">すべての参加者が安心して祭を楽しめるよう、細部まで配慮しています。</p>
+    <div class="a11y-list">
+      <div class="a11y-item">
+        <div class="a11y-icon">♿</div>
+        <div>
+          <h4>車いす専用観覧スポット</h4>
+          <p>人波に遮られない最前列エリアを確保。だんじりが目の前を通過する迫力を体験できます。</p>
+        </div>
+      </div>
+      <div class="a11y-item">
+        <div class="a11y-icon">🚻</div>
+        <div>
+          <h4>バリアフリートイレルート確認済み</h4>
+          <p>ルート上の多機能トイレをすべて事前確認。安心して移動いただけます。</p>
+        </div>
+      </div>
+      <div class="a11y-item">
+        <div class="a11y-icon">🛑</div>
+        <div>
+          <h4>混雑を避けた導線設計</h4>
+          <p>祭の一般観覧エリアと分離した専用ルートで移動。急な人混みに巻き込まれません。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PHOTOS -->
+<section>
+  <div class="section-eyebrow">GALLERY</div>
+  <h2 class="section-title">祭の記録</h2>
+  <div class="photo-grid">
+    <div class="photo-item">
+      <img src="images/01.jpg" alt="岸和田城前のだんじり行列">
+      <div class="photo-caption">岸和田城前 — だんじり行列</div>
+    </div>
+    <div class="photo-item">
+      <img src="images/03.jpg" alt="車いすの観覧者とだんじり">
+      <div class="photo-caption">車いすユーザーと一緒に観覧</div>
+    </div>
+    <div class="photo-item">
+      <img src="images/02.png" alt="街中を疾走するだんじり">
+      <div class="photo-caption">屋根付きエリア — だんじり観覧</div>
+    </div>
+    <div class="photo-item">
+      <img src="images/04.jpg" alt="やりまわし">
+      <div class="photo-caption highlight">🔴 やりまわし観覧スポット</div>
+    </div>
+    <div class="photo-item">
+      <img src="images/05.jpg" alt="引き手たちの迫力">
+      <div class="photo-caption">引き手たちの迫力</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-block" id="apply">
+  <section>
+    <div class="section-eyebrow">APPLY NOW</div>
+    <h2 class="section-title">定員30名・抽選制。<br>お申し込みはお早めに。</h2>
+    <p>
+      車いすユーザー15名・介助者15名、計30名の少人数ツアーです。<br>
+      応募多数の場合は抽選となり、結果はこちらからご連絡します。<br>
+      参加費：お一人 <span style="text-decoration:line-through;color:rgba(255,255,255,0.4);">6,500円</span> → <strong style="color:var(--gold);">5,500円（税込）</strong>　※7月15日までの早割価格<br>
+      車いすユーザー・介助者とも同額
+    </p>
+    <div class="hero-cta-group">
+      <a href="#" class="btn-primary" onclick="openApplyModal(); return false;">申し込みフォームへ</a>
+      <button class="btn-secondary" onclick="openModal()">
+        <span class="play-icon"></span>
+        昨年の動画を見る
+      </button>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>岸和田バリアブレイクプロジェクト</p>
+  <p>詳細は <a href="https://k-rokkaku.wixsite.com/kbbp" target="_blank">公式サイト</a> をご覧ください</p>
+  <p style="margin-top:12px;">© 2026 岸和田バリアブレイクプロジェクト</p>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div id="ytContainer" style="aspect-ratio:16/9; width:100%; background:#000;"></div>
+  </div>
+</div>
+
+<!-- APPLY MODAL -->
+<div class="modal-overlay" id="applyModal" onclick="closeApplyModal(event)" style="overflow-y:auto; align-items:flex-start; padding: 40px 16px;">
+  <div class="modal-box" style="max-width:680px; width:100%; background:var(--cream); color:var(--black); padding:40px 36px; margin:auto;">
+    <button class="modal-close" onclick="closeApplyModalDirect()" style="color:var(--black); top:-36px;">✕</button>
+
+    <!-- STEP 1: 注意事項同意 -->
+    <div id="applyStep1">
+      <div class="section-eyebrow" style="text-align:left;">STEP 1 / 2</div>
+      <h2 class="section-title" style="font-size:1.4rem; margin-bottom:20px;">参加にあたっての注意事項</h2>
+      <p style="font-size:0.88rem; color:var(--gray); line-height:1.8; margin-bottom:20px;">
+        お申し込みの前に、以下の注意事項をすべてお読みください。
+      </p>
+
+      <div style="background:#f5f0e8; border-left:3px solid var(--red); padding:24px 24px; margin-bottom:24px;">
+        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:16px;">
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:0.875rem; line-height:1.85; color:#3a3a3a;">
+            <span style="color:var(--red); font-size:1rem; flex-shrink:0; margin-top:1px;">▸</span>
+            本ツアーでは、主催者および当日スタッフは、車いすでの移動介助、移乗介助、トイレ介助、食事介助、服薬管理、個別の体調管理等の身体介助は行いません。
+          </li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:0.875rem; line-height:1.85; color:#3a3a3a;">
+            <span style="color:var(--red); font-size:1rem; flex-shrink:0; margin-top:1px;">▸</span>
+            身体介助や継続的な見守りが必要な場合は、参加者ご自身で対応可能な同行介助者を手配してください。
+          </li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:0.875rem; line-height:1.85; color:#3a3a3a;">
+            <span style="color:var(--red); font-size:1rem; flex-shrink:0; margin-top:1px;">▸</span>
+            屋外での観覧・移動を伴うため、水分、暑さ対策用品、服薬、体調管理に必要なものは、参加者本人および同行者で準備してください。
+          </li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:0.875rem; line-height:1.85; color:#3a3a3a;">
+            <span style="color:var(--red); font-size:1rem; flex-shrink:0; margin-top:1px;">▸</span>
+            高温、荒天、混雑、祭運行上の事情等により、安全確保のため、コース変更、時間短縮、中止、途中離脱の案内を行う場合があります。
+          </li>
+          <li style="display:flex; gap:12px; align-items:flex-start; font-size:0.875rem; line-height:1.85; color:#3a3a3a;">
+            <span style="color:var(--red); font-size:1rem; flex-shrink:0; margin-top:1px;">▸</span>
+            申込内容により、安全な参加が難しいと主催者が判断した場合、参加方法の相談または参加をお受けできない場合があります。
+          </li>
+        </ul>
+      </div>
+
+      <label style="display:flex; gap:14px; align-items:flex-start; cursor:pointer; background:#fff; border:2px solid #ddd; padding:18px 20px; transition:border-color 0.2s;" id="consentLabel">
+        <input type="checkbox" id="consentCheck" style="width:20px; height:20px; flex-shrink:0; margin-top:1px; accent-color:var(--red); cursor:pointer;"
+          onchange="document.getElementById('consentLabel').style.borderColor = this.checked ? 'var(--red)' : '#ddd';
+                    document.getElementById('btnToStep2').disabled = !this.checked;
+                    document.getElementById('btnToStep2').style.opacity = this.checked ? '1' : '0.4';">
+        <span style="font-size:0.9rem; font-weight:700; line-height:1.6; color:var(--black);">上記の注意事項をすべて読み、理解・同意した上で申し込みます。</span>
+      </label>
+
+      <div style="margin-top:28px; text-align:center;">
+        <button id="btnToStep2" disabled onclick="showStep2()"
+          style="background:var(--red); color:#fff; border:none; padding:16px 48px; font-family:'Noto Serif JP',serif; font-size:1rem; font-weight:700; cursor:pointer; letter-spacing:0.05em; opacity:0.4; transition:opacity 0.2s;">
+          同意して申し込みフォームへ →
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: 申し込みフォーム -->
+    <div id="applyStep2" style="display:none;">
+      <div class="section-eyebrow" style="text-align:left;">STEP 2 / 2</div>
+      <h2 class="section-title" style="font-size:1.4rem; margin-bottom:8px;">お申し込みフォーム</h2>
+      <p style="font-size:0.82rem; color:var(--gray); margin-bottom:28px; line-height:1.8;">
+        ★ 2026年9月18日（金）13:00〜16:00　定員15組30名（抽選）<br>
+        参加費：¥5,500（税込）／お一人　※7月15日までの早割価格
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:20px;">
+
+        <div class="form-group">
+          <label class="form-label">お名前（代表者）<span class="required">必須</span></label>
+          <input type="text" class="form-input" placeholder="例：山田 太郎">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ふりがな<span class="required">必須</span></label>
+          <input type="text" class="form-input" placeholder="例：やまだ たろう">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">メールアドレス<span class="required">必須</span></label>
+          <input type="email" class="form-input" placeholder="例：taro@example.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">電話番号<span class="required">必須</span></label>
+          <input type="tel" class="form-input" placeholder="例：090-0000-0000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">参加人数<span class="required">必須</span></label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label style="font-size:0.8rem; color:var(--gray); display:block; margin-bottom:6px;">車いすユーザー</label>
+              <select class="form-input" style="background:#fff;">
+                <option>1名</option><option>2名</option><option>3名</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; color:var(--gray); display:block; margin-bottom:6px;">介助者・同行者</label>
+              <select class="form-input" style="background:#fff;">
+                <option>1名</option><option>2名</option><option>3名</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">見学スポット確認<span class="required">必須</span></label>
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:4px;">
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
+              <input type="checkbox" name="spot" value="roofed" style="accent-color:var(--red);"> 屋根付きエリア
+            </label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
+              <input type="checkbox" name="spot" value="yarimawashi" style="accent-color:var(--red);"> やりまわし観覧スポット
+            </label>
+          </div>
+          <p style="font-size:0.78rem;color:var(--gray);margin-top:6px;">※ 1コースで両スポットをご案内します</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">車いすの種類</label>
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:4px;">
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
+              <input type="radio" name="wheelchair" value="manual" style="accent-color:var(--red);"> 手動車いす
+            </label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
+              <input type="radio" name="wheelchair" value="electric" style="accent-color:var(--red);"> 電動車いす
+            </label>
+            <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
+              <input type="radio" name="wheelchair" value="other" style="accent-color:var(--red);"> その他
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ご要望・配慮事項など</label>
+          <textarea class="form-input" rows="4" placeholder="アレルギー、体調上の注意点、移動に関する配慮など、自由にご記入ください。" style="resize:vertical;"></textarea>
+        </div>
+
+      </div>
+
+      <div style="margin-top:32px; text-align:center;">
+        <button onclick="submitApply()"
+          style="background:var(--red); color:#fff; border:none; padding:18px 56px; font-family:'Noto Serif JP',serif; font-size:1.05rem; font-weight:700; cursor:pointer; letter-spacing:0.05em; width:100%; max-width:360px;">
+          申し込みを送信する
+        </button>
+        <p style="margin-top:14px; font-size:0.78rem; color:var(--gray);">応募多数の場合は抽選。結果はメールでご連絡します。</p>
+      </div>
+    </div>
+
+    <!-- STEP 3: 完了 -->
+    <div id="applyStep3" style="display:none; text-align:center; padding:40px 0;">
+      <div style="font-size:3rem; margin-bottom:20px;">✅</div>
+      <h2 class="section-title" style="font-size:1.5rem; margin-bottom:16px;">お申し込みを受け付けました</h2>
+      <p style="font-size:0.92rem; color:var(--gray); line-height:2; margin-bottom:32px;">
+        ご登録のメールアドレスに確認メールをお送りします。<br>
+        抽選結果は〆切後、順次メールにてご連絡いたします。<br>
+        しばらくお待ちください。
+      </p>
+      <button onclick="closeApplyModalDirect()" style="background:var(--black); color:#fff; border:none; padding:14px 40px; font-family:'Noto Serif JP',serif; font-size:0.95rem; cursor:pointer;">
+        閉じる
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .form-group { display:flex; flex-direction:column; gap:8px; }
+  .form-label { font-size:0.88rem; font-weight:700; color:var(--black); }
+  .required { background:var(--red); color:#fff; font-size:0.68rem; padding:2px 6px; border-radius:2px; margin-left:8px; font-weight:700; vertical-align:middle; }
+  .form-input { border:1px solid #ccc; padding:12px 14px; font-family:'Noto Sans JP',sans-serif; font-size:0.9rem; width:100%; outline:none; transition:border-color 0.2s; background:#fff; }
+  .form-input:focus { border-color:var(--red); }
+</style>
+
+<script>
+// Hero slideshow
+const slides = document.querySelectorAll('.hero-slide');
+let current = 0;
+setInterval(() => {
+  slides[current].classList.remove('active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('active');
+}, 4500);
+
+// Modal with YouTube
+const YT_ID = 'VeWAlz4JcgY';
+function openModal() {
+  document.getElementById('ytContainer').innerHTML =
+    `<iframe width="100%" height="100%" style="aspect-ratio:16/9;border:none;"
+      src="https://www.youtube.com/embed/${YT_ID}?autoplay=1"
+      allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  document.getElementById('videoModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModalDirect() {
+  document.getElementById('videoModal').classList.remove('open');
+  document.getElementById('ytContainer').innerHTML = '';
+  document.body.style.overflow = '';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('videoModal')) closeModalDirect();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModalDirect(); closeApplyModalDirect(); } });
+
+// Apply Modal
+function openApplyModal() {
+  document.getElementById('applyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // reset
+  document.getElementById('applyStep1').style.display = 'block';
+  document.getElementById('applyStep2').style.display = 'none';
+  document.getElementById('applyStep3').style.display = 'none';
+  document.getElementById('consentCheck').checked = false;
+  document.getElementById('btnToStep2').disabled = true;
+  document.getElementById('btnToStep2').style.opacity = '0.4';
+  document.getElementById('consentLabel').style.borderColor = '#ddd';
+}
+function closeApplyModalDirect() {
+  document.getElementById('applyModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeApplyModal(e) {
+  if (e.target === document.getElementById('applyModal')) closeApplyModalDirect();
+}
+function showStep2() {
+  document.getElementById('applyStep1').style.display = 'none';
+  document.getElementById('applyStep2').style.display = 'block';
+  document.getElementById('applyModal').scrollTop = 0;
+}
+function submitApply() {
+  document.getElementById('applyStep2').style.display = 'none';
+  document.getElementById('applyStep3').style.display = 'block';
+  document.getElementById('applyModal').scrollTop = 0;
+}
+</script>
+</body>
+</html>
