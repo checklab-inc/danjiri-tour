@@ -665,22 +665,22 @@
 
         <div class="form-group">
           <label class="form-label">お名前（代表者）<span class="required">必須</span></label>
-          <input type="text" class="form-input" placeholder="例：山田 太郎">
+          <input type="text" name="お名前" class="form-input" placeholder="例：山田 太郎">
         </div>
 
         <div class="form-group">
           <label class="form-label">ふりがな<span class="required">必須</span></label>
-          <input type="text" class="form-input" placeholder="例：やまだ たろう">
+          <input type="text" name="ふりがな" class="form-input" placeholder="例：やまだ たろう">
         </div>
 
         <div class="form-group">
           <label class="form-label">メールアドレス<span class="required">必須</span></label>
-          <input type="email" class="form-input" placeholder="例：taro@example.com">
+          <input type="email" name="email" class="form-input" placeholder="例：taro@example.com">
         </div>
 
         <div class="form-group">
           <label class="form-label">電話番号<span class="required">必須</span></label>
-          <input type="tel" class="form-input" placeholder="例：090-0000-0000">
+          <input type="tel" name="電話番号" class="form-input" placeholder="例：090-0000-0000">
         </div>
 
         <div class="form-group">
@@ -688,13 +688,13 @@
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <div>
               <label style="font-size:0.8rem; color:var(--gray); display:block; margin-bottom:6px;">車いすユーザー</label>
-              <select class="form-input" style="background:#fff;">
+              <select name="車いすユーザー人数" class="form-input" style="background:#fff;">
                 <option>1名</option><option>2名</option><option>3名</option>
               </select>
             </div>
             <div>
               <label style="font-size:0.8rem; color:var(--gray); display:block; margin-bottom:6px;">介助者・同行者</label>
-              <select class="form-input" style="background:#fff;">
+              <select name="介助者人数" class="form-input" style="background:#fff;">
                 <option>1名</option><option>2名</option><option>3名</option>
               </select>
             </div>
@@ -705,10 +705,10 @@
           <label class="form-label">見学スポット確認<span class="required">必須</span></label>
           <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:4px;">
             <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
-              <input type="checkbox" name="spot" value="roofed" style="accent-color:var(--red);"> 屋根付きエリア
+              <input type="checkbox" name="見学スポット" value="屋根付きエリア" style="accent-color:var(--red);"> 屋根付きエリア
             </label>
             <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
-              <input type="checkbox" name="spot" value="yarimawashi" style="accent-color:var(--red);"> やりまわし観覧スポット
+              <input type="checkbox" name="見学スポット" value="やりまわし観覧スポット" style="accent-color:var(--red);"> やりまわし観覧スポット
             </label>
           </div>
           <p style="font-size:0.78rem;color:var(--gray);margin-top:6px;">※ 1コースで両スポットをご案内します</p>
@@ -718,26 +718,26 @@
           <label class="form-label">車いすの種類</label>
           <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:4px;">
             <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
-              <input type="radio" name="wheelchair" value="manual" style="accent-color:var(--red);"> 手動車いす
+              <input type="radio" name="車いすの種類" value="手動車いす" style="accent-color:var(--red);"> 手動車いす
             </label>
             <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
-              <input type="radio" name="wheelchair" value="electric" style="accent-color:var(--red);"> 電動車いす
+              <input type="radio" name="車いすの種類" value="電動車いす" style="accent-color:var(--red);"> 電動車いす
             </label>
             <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:0.92rem;">
-              <input type="radio" name="wheelchair" value="other" style="accent-color:var(--red);"> その他
+              <input type="radio" name="車いすの種類" value="その他" style="accent-color:var(--red);"> その他
             </label>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label">ご要望・配慮事項など</label>
-          <textarea class="form-input" rows="4" placeholder="アレルギー、体調上の注意点、移動に関する配慮など、自由にご記入ください。" style="resize:vertical;"></textarea>
+          <textarea name="ご要望・配慮事項" class="form-input" rows="4" placeholder="アレルギー、体調上の注意点、移動に関する配慮など、自由にご記入ください。" style="resize:vertical;"></textarea>
         </div>
 
       </div>
 
       <div style="margin-top:32px; text-align:center;">
-        <button onclick="submitApply()"
+        <button onclick="submitApply(event)"
           style="background:var(--red); color:#fff; border:none; padding:18px 56px; font-family:'Noto Serif JP',serif; font-size:1.05rem; font-weight:700; cursor:pointer; letter-spacing:0.05em; width:100%; max-width:360px;">
           申し込みを送信する
         </button>
@@ -825,10 +825,48 @@ function showStep2() {
   document.getElementById('applyStep2').style.display = 'block';
   document.getElementById('applyModal').scrollTop = 0;
 }
-function submitApply() {
-  document.getElementById('applyStep2').style.display = 'none';
-  document.getElementById('applyStep3').style.display = 'block';
-  document.getElementById('applyModal').scrollTop = 0;
+async function submitApply(e) {
+  e.preventDefault();
+  const modal = document.getElementById('applyStep2');
+  const btn = modal.querySelector('button[onclick]');
+  btn.disabled = true;
+  btn.textContent = '送信中…';
+
+  // フォームデータ収集
+  const fields = modal.querySelectorAll('input[name], select[name], textarea[name]');
+  const data = {};
+  fields.forEach(f => {
+    if (f.type === 'checkbox') {
+      if (f.checked) {
+        data[f.name] = data[f.name] ? data[f.name] + '、' + f.value : f.value;
+      }
+    } else if (f.type === 'radio') {
+      if (f.checked) data[f.name] = f.value;
+    } else {
+      if (f.value) data[f.name] = f.value;
+    }
+  });
+
+  try {
+    const res = await fetch('https://formspree.io/f/mrevvwge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      document.getElementById('applyStep2').style.display = 'none';
+      document.getElementById('applyStep3').style.display = 'block';
+      document.getElementById('applyModal').scrollTop = 0;
+    } else {
+      alert('送信に失敗しました。お手数ですが、しばらく時間をおいて再度お試しください。');
+      btn.disabled = false;
+      btn.textContent = '申し込みを送信する';
+    }
+  } catch(err) {
+    alert('通信エラーが発生しました。インターネット接続をご確認の上、再度お試しください。');
+    btn.disabled = false;
+    btn.textContent = '申し込みを送信する';
+  }
 }
 </script>
 </body>
